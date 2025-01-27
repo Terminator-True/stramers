@@ -8,29 +8,25 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('sobres', function (Blueprint $table) {
-            $table->id()->unique();
+        Schema::create('decks', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained();
             $table->string('name');
-            $table->string('type')->comment('Tipo de cartas que irán en éste sobre');
-            $table->integer('cost');
+            $table->boolean('selected')->default(false);
+            $table->integer('card_count')->default(0);
             $table->timestamps();
             $table->softDeletes();
-
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
-        //
+        Schema::dropIfExists('decks');
     }
 };

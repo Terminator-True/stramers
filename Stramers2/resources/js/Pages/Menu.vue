@@ -44,11 +44,13 @@
                 >
                 OPTIONS
                 </button>
-                <a :href="route('logout')"
-                class="px-6 py-2 text-sm font-bold text-white bg-red-500 rounded-xl text-center hover:bg-red-700"
-                >
-                QUIT
-                </a>
+
+                <form method="POST" @submit.prevent="logout">
+                    <ResponsiveNavLink as="button" class="px-6 py-2 text-sm font-bold text-white bg-red-500 rounded-xl text-center hover:bg-red-700">
+                        QUIT
+                    </ResponsiveNavLink>
+                </form>
+
             </div>
         
         </div>

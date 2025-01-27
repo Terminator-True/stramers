@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
-
 class Card extends Model
 {
     protected $table = 'cards';
@@ -24,7 +23,8 @@ class Card extends Model
         'usos',
         'text',
         'img',
-        'obtainable'
+        'obtainable',
+        'rarity'
     ];
     /**
      * Relaciones
@@ -32,12 +32,12 @@ class Card extends Model
 
     public function user()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class)->withPivot('quantity');
     }
 
     public function decks()
     {
-        return $this->belongsToMany(Deck::class);
+        return $this->belongsToMany(Deck::class)->withPivot('quantity');
     }
 
     /**
@@ -52,10 +52,9 @@ class Card extends Model
             ->get()
             ];
 
-            } catch (Error $e) {
+            } catch (\Exception $e) {
                 return ['status'=>500,'value'=>$e];
             }
-
     }
 
     /**
@@ -75,7 +74,7 @@ class Card extends Model
             }else{
                 return ['status'=> 404, 'value'=>null];
             }
-        } catch (Error $e) {
+        } catch (\Exception $e) {
             return ['status'=>500,'value'=>$e];
         }
     }
@@ -97,7 +96,7 @@ class Card extends Model
             }else{
                 return ['status'=> 404, 'value'=>null];
             }
-        } catch (Error $e) {
+        } catch (\Exception $e) {
             return ['status'=>500,'value'=>$e];
         }
     }

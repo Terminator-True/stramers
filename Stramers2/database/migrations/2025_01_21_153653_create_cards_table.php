@@ -8,27 +8,22 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('decks', function (Blueprint $table) {
-            $table->id()->unique();
-            $table->char('name');
-            $table->boolean('selected');
-            $table->timestamps();
-            $table->softDeletes();
-        });
-
         Schema::create('cards', function (Blueprint $table) {
-            $table->id()->unique();
-            $table->string('name')->unique();
+            $table->id();
+            $table->string('name');
             $table->string('category');
             $table->string('type');
             $table->integer('cost');
             $table->integer('dmg');
             $table->integer('life');
+            $table->integer('usos');
+            $table->text('text');
+            $table->string('img');
+            $table->boolean('obtainable')->default(true);
+            $table->string('rarity');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -36,11 +31,9 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
-        //
+        Schema::dropIfExists('cards');
     }
 };

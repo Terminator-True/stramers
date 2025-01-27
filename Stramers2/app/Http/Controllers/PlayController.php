@@ -8,6 +8,6 @@ use Inertia\Inertia;
 class PlayController extends Controller
 {
     public function index() {
-        return Inertia::render('Play');
+        return Inertia::render('Game/Play/Play');
     }
 }

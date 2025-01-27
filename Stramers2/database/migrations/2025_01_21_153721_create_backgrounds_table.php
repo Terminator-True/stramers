@@ -8,27 +8,25 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('messages', function (Blueprint $table) {
+        Schema::create('backgrounds', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('sender_id');
-            $table->unsignedInteger('recipient_id');
-            $table->text('Body');
+            $table->string('name');
+            $table->string('img');
+            $table->string('color');
+            $table->integer('cost');
+            $table->string('rarity');
             $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::dropIfExists('messages');
+        Schema::dropIfExists('backgrounds');
     }
 };

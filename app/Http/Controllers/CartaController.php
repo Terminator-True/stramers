@@ -18,8 +18,8 @@ class CartaController extends Controller
     protected $card;
     public function __construct(Card $card)
     {
-        $this->middleware('auth');
-        $this->middleware('superadmin');
+        ;
+
         $this->card = $card;
     }
 

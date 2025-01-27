@@ -21,7 +21,7 @@ class TiendaController extends Controller
     public $sobre;
     public function __construct(User $user, Sobre $sobre)
     {
-        $this->middleware('auth');
+        ;
         $this->user = $user;
         $this->sobre = $sobre;
     }

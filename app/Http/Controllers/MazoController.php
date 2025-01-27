@@ -20,7 +20,7 @@ class MazoController extends Controller
     private $user;
     public function __construct(Deck $deck, User $user)
     {
-        $this->middleware('auth');
+        ;
         $this->deck = $deck;
         $this->user = $user;
     }

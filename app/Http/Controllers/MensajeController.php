@@ -18,7 +18,7 @@ class MensajeController extends Controller
     {
         $this->user = $user;
         $this->mensaje = $mensaje;
-        $this->middleware('auth');
+        ;
         $this->userNotification = $userNotification;
     }
     /**

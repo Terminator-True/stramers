@@ -1,5 +1,11 @@
 <?php
 
+use App\Http\Controllers\GameController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MazoController;
+use App\Http\Controllers\MensajeController;
+use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\TiendaController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;

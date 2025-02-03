@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\DeckController;
+use App\Http\Controllers\ShopController;
+use App\Http\Controllers\PlayController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MazoController;
 use App\Http\Controllers\MensajeController;
@@ -9,8 +12,6 @@ use App\Http\Controllers\TiendaController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-
-
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [

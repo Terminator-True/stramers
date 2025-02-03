@@ -15,18 +15,14 @@
         "concurrently": "^9.0.1",
         "laravel-echo": "^1.19.0",
         "laravel-vite-plugin": "^1.0",
-<<<<<<< HEAD
         "postcss": "^8.4.32",
         "pusher-js": "^8.4.0",
         "tailwindcss": "^3.4.0",
-=======
-        "postcss": "^8.4.49",
-        "tailwindcss": "^3.4.17",
->>>>>>> 8d0549a791094d83ac987a707c065e7a0f4d08fe
         "vite": "^6.0",
         "vue": "^3.3.13"
     },
     "dependencies": {
+        "echo": "^0.1.9",
         "phaser": "^3.87.0"
     }
 }

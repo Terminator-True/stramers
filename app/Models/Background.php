@@ -20,6 +20,7 @@ class Background extends Model
         'img',
         'color',
         'cost',
+        'rarity'
     ];
 
     public function user()

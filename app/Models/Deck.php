@@ -12,12 +12,12 @@ class Deck extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'decks';
+    // protected $table = 'decks';
     protected $fillable = [
         'user_id',
         'name',
-        'cards',
-        'selected'
+        'selected',
+        'card_count'
     ];
 
     /**
@@ -34,6 +34,19 @@ class Deck extends Model
         return $this->belongsToMany(Card::class);
     }
 
+
+    /**
+     * Devuelve todos los mazo relacionados con el usuario especificado
+     * por su ID
+     *
+     * @param int $userId ID del usuario a buscar
+     *
+     * @return Collection Coleccion de mazos relacionados al usuario
+     */
+    public static function getAllByUserId($userId)
+    {
+        return static::where('user_id', $userId)->get();
+    }
 
     /**
      * @param deck_id ID de la carta a buscar

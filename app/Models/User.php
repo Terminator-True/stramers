@@ -19,7 +19,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -35,7 +35,13 @@ class User extends Authenticatable
         'superadmin',
         'avatar',
         'background_profile',
-        'socket_id'
+        'is_online',
+        'last_online',
+        'is_banned',
+        'ban_reason',
+        'ban_expires_at',
+        'experience_points',
+        'level'
     ];
 
     /**
@@ -67,17 +73,32 @@ class User extends Authenticatable
 
     public function cards()
     {
-        return $this->belongsToMany(Card::class);
+        return $this->belongsToMany(Card::class)->withPivot('quantity');
     }
 
     public function friends()
     {
-        return $this->belongsToMany(User::class,'user_user','user_id_slave','user_id_master');
+        return $this->belongsToMany(User::class,'user_user','user_id_slave','user_id_master')->withPivot('friendship_status');
     }
 
     public function backgrounds()
     {
         return $this->belongsToMany(Background::class);
+    }
+
+    public function achievements()
+    {
+        return $this->belongsToMany(Achievement::class)->withPivot('unlocked_at');
+    }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(StoreTransaction::class);
     }
 
     /**

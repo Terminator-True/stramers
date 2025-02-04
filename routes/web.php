@@ -9,6 +9,7 @@ use App\Http\Controllers\MazoController;
 use App\Http\Controllers\MensajeController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\TiendaController;
+use App\Http\Controllers\CartaController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -38,6 +39,14 @@ Route::middleware([
     Route::delete('/deck/{deck}', [DeckController::class, 'destroy'])->name('deck.destroy');
     Route::get('/deck/{deck}', [DeckController::class, 'show'])->name('deck.show');
 
+    
+    Route::get('/carta', [CartaController::class, 'index'])->name('carta');
+    Route::post('/carta', [CartaController::class, 'newCard'])->name('carta.store');
+    Route::get('/carta/{id}/edit', [CartaController::class, 'update'])->name('updateCarta');
+    Route::put('/carta/{id}', [CartaController::class, 'updateCard'])->name('carta.update');
+    Route::get('/cartas', [CartaController::class, 'get_all_cards'])->name('carta.all');
+
+    
     Route::get('/play', [PlayController::class, 'index'])->name('play');
     Route::get('/shop', [ShopController::class, 'index'])->name('shop');
 });

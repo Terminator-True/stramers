@@ -44,7 +44,7 @@ Route::middleware([
     
     Route::get('/carta', [CartaController::class, 'index'])->name('carta');
     Route::post('/carta', [CartaController::class, 'newCard'])->name('carta.store');
-    Route::get('/carta/{id}/edit', [CartaController::class, 'update'])->name('updateCarta');
+    Route::get('/carta/{id}/edit', [CartaController::class, 'getCardId'])->name('get.card.id');
     Route::put('/carta/{id}', [CartaController::class, 'updateCard'])->name('carta.update');
     Route::get('/cartas', [CartaController::class, 'get_all_cards'])->name('carta.all');
 

@@ -18,6 +18,8 @@
         Tienda de Cartas
       </h1>
       
+      <button @click="getCardID(1)" > card </button>
+
       <!-- Sobres Section -->
       <div class="w-full max-w-4xl bg-gray-800/50 backdrop-blur-lg rounded-lg p-6 shadow-md mb-8">
         <h2 class="text-2xl font-semibold mb-4 text-purple-400">Sobres de Cartas</h2>
@@ -67,6 +69,10 @@
           </div>
         </div>
       </div>
+
+
+      <Card :card="card" class=" mt-10 " />
+
     </div>
     
     <!-- Animated cards background effect -->
@@ -81,14 +87,22 @@
            }">
       </div>
     </div>
+
   </div>
 </template>
 
 <script>
+import Card from '@/Components/Cards/Card.vue';
+import axios from 'axios';
+
 export default {
   name: 'ShopPage',
+  components: {
+    Card,
+  },
   data() {
     return {
+      card: [],
       packs: [
         { type: 'basic', name: 'Básico', price: 100 },
         { type: 'super', name: 'Súper', price: 300 },
@@ -112,7 +126,21 @@ export default {
       const card = this.cards.find((c) => c.id === id);
       console.log(`Has comprado la carta "${card.name}" por ${card.price} coins.`);
     },
+    getCardID(id) {
+      return axios.get(route('get.card.id', { id: id }))
+        .then(response => {
+          console.log(response.data);
+          this.card = response.data;
+        })
+        .catch(error => {
+          console.error('Error al obtener la carta:', error);
+          throw error;
+        });
+    },
   },
+  mounted() {
+    this.getCardID(1);
+  }
 };
 </script>
 

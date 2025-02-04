@@ -34,14 +34,14 @@ class CartaController extends Controller
     }
 
     /**
-     * Devuelve la vista carta
+     * Devuelve la información de la carta en formato JSON
      *
-     * @return view
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request,$id)
+    public function getCardId(Request $request, $id)
     {
         $carta = Card::get_card_by_id($id)["value"]->first();
-        return view('updateCarta')->with('carta',$carta);
+        return response()->json($carta);
     }
 
 

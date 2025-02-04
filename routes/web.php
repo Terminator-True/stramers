@@ -31,10 +31,13 @@ Route::middleware([
         return Inertia::render('Menu');
     })->name('dashboard');
 
-    Route::get('/deck', [DeckController::class, 'index'] )->name('deck');
-    Route::get('/deck_list/{id?}',[DeckController::class, 'getUserDecks'] )->name('get.decks');
+    Route::get('/deck', [DeckController::class, 'index'])->name('deck');
+    Route::get('/deck_list/{id?}', [DeckController::class, 'getUserDecks'])->name('get.decks');
+    Route::post('/deck', [DeckController::class, 'store'])->name('deck.store');
+    Route::put('/deck/{deck}', [DeckController::class, 'update'])->name('deck.update');
+    Route::delete('/deck/{deck}', [DeckController::class, 'destroy'])->name('deck.destroy');
+    Route::get('/deck/{deck}', [DeckController::class, 'show'])->name('deck.show');
 
-    Route::get('/play', [PlayController::class, 'index'] )->name('play');
-    Route::get('/shop', [ShopController::class, 'index'] )->name('shop');
-
+    Route::get('/play', [PlayController::class, 'index'])->name('play');
+    Route::get('/shop', [ShopController::class, 'index'])->name('shop');
 });

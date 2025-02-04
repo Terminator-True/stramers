@@ -38,8 +38,39 @@
 </template>
 
 <script>
-export default {
+import axios from 'axios';
 
+export default {
+  data() {
+    return {
+      decks: [],
+      selectedDeck: null,
+      selectedMode: 'casual'
+    }
+  },
+  methods: {
+    async getDecks() {
+      try {
+        const response = await axios.get(route('get.decks'));
+        if (response.data) {
+          this.decks = response.data.data;
+          if (this.decks.length > 0) {
+            this.selectedDeck = this.decks[0].id; // Seleccionar el primer mazo por defecto
+          }
+        } else {
+          console.error('No se recibieron datos de mazos');
+        }
+      } catch (error) {
+        console.error('Error fetching decks:', error.response || error);
+      }
+    },
+    closeModal() {
+      this.$emit('close');
+    }
+  },
+  mounted() {
+    this.getDecks();
+  }
 }
 </script>
 

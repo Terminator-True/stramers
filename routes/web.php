@@ -32,6 +32,8 @@ Route::middleware([
     })->name('dashboard');
 
     Route::get('/deck', [DeckController::class, 'index'] )->name('deck');
+    Route::get('/deck_list/{id?}',[DeckController::class, 'getUserDecks'] )->name('get.decks');
+
     Route::get('/play', [PlayController::class, 'index'] )->name('play');
     Route::get('/shop', [ShopController::class, 'index'] )->name('shop');
 

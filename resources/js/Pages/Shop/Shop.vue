@@ -31,9 +31,12 @@
         </div>
       </div>
 
-      <a :href="route('dashboard')" class="mb-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-            &larr; 
-          </a>
+      <button @click="$inertia.visit(route('dashboard'))" class="absolute top-6 left-6 px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold rounded-lg shadow-lg transform hover:scale-105 transition-all duration-200 flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg>
+        <!-- Volver al Menú -->
+      </button>
       
       <!-- Ruleta Section -->
       <div class="w-full max-w-4xl bg-gray-800/50 backdrop-blur-lg rounded-lg p-6 shadow-md mb-8">

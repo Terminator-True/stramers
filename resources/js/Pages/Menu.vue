@@ -131,23 +131,24 @@
       </div>
 
       <div class="flex flex-row flex-wrap justify-center gap-6 max-w-4xl w-full mb-8">
-        <div class="bg-gray-700/50 p-4 rounded-2xl backdrop-blur-lg border border-gray-600 hover:border-gray-500 transition-colors shadow-md">
-          <a :href="route('profile.show')" class="text-gray-300 text-sm font-medium mb-1 block">Profile</a>
+        <button @click="openModalPerfil" class="bg-gray-700/50 p-4 rounded-2xl backdrop-blur-lg border border-gray-600 hover:border-gray-500 transition-colors shadow-md">
+          <!-- <a :href="route('profile.show')" class="text-center text-gray-300 text-sm font-medium mb-1 block">Profile</a> -->
+           <img :src="$page.props.auth.user" class=" border rounded-full shadow-sm h-full " alt="">
           <div class="bg-gray-800/70 px-4 py-2 rounded-lg text-white font-bold">
-            {{ name }}
+            {{ $page.props.auth.user.name }}
           </div>
-        </div>
+        </button>
 
         <div class="flex-1 min-w-[300px] bg-gray-800/30 rounded-3xl backdrop-blur-lg p-4 flex gap-4">
           <button @click="openModalGame" class="flex-1 text-center bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white py-3 px-6 rounded-lg transform hover:scale-105 transition-all duration-200 font-bold text-lg shadow-lg hover:shadow-blue-500/50">
             PLAY
           </button>
-          <a :href="route('deck')" class="flex-1 text-center bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-500 hover:to-teal-500 text-white py-3 px-6 rounded-lg transform hover:scale-105 transition-all duration-200 font-bold text-lg shadow-lg hover:shadow-green-500/50">
+          <button @click="$inertia.visit(route('deck'))" class="flex-1 text-center bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-500 hover:to-teal-500 text-white py-3 px-6 rounded-lg transform hover:scale-105 transition-all duration-200 font-bold text-lg shadow-lg hover:shadow-green-500/50">
             COLLECTION
-          </a>
-          <a :href="route('shop')" class="flex-1 text-center bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white py-3 px-6 rounded-lg transform hover:scale-105 transition-all duration-200 font-bold text-lg shadow-lg hover:shadow-purple-500/50">
+          </button>
+          <button @click="$inertia.visit(route('shop'))" class="flex-1 text-center bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white py-3 px-6 rounded-lg transform hover:scale-105 transition-all duration-200 font-bold text-lg shadow-lg hover:shadow-purple-500/50">
             Tienda
-          </a>
+          </button>
         </div>
 
         <div class="flex flex-col gap-4">
@@ -199,12 +200,18 @@
       :show="isModalOpenConfig"
       @close="closeModalConfig"
     ></ConfigModal>
+
+    <PerfilModal
+      :show="isModalOpenPerfil"
+      @close="closeModalPerfil"
+    ></PerfilModal>
   </div>
 </template>
 
 <script>
 import SelectGameModal from '@/Components/Modal/SelectGameModal.vue';
 import ConfigModal from '@/Components/Modal/ConfigModal.vue';
+import PerfilModal from '@/Components/Modal/PerfilModal.vue';
 import { Link } from '@inertiajs/vue3';
 
 export default {
@@ -212,12 +219,14 @@ export default {
   components: {
     SelectGameModal,
     ConfigModal,
+    PerfilModal,
     Link,
   },
   data(){
     return{
       isModalOpenGame: false,
       isModalOpenConfig: false,
+      isModalOpenPerfil: false,
       selectedDeck: null,
       selectedMode: 'casual',
     }
@@ -243,6 +252,12 @@ export default {
     },
     closeModalConfig() {
       this.isModalOpenConfig = false;
+    },
+    openModalPerfil() {
+      this.isModalOpenPerfil = true;
+    },
+    closeModalPerfil() {
+      this.isModalOpenPerfil = false;
     },
   },
 };

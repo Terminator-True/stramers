@@ -139,7 +139,7 @@
         </div>
 
         <div class="flex-1 min-w-[300px] bg-gray-800/30 rounded-3xl backdrop-blur-lg p-4 flex gap-4">
-          <button @click="openModal" class="flex-1 text-center bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white py-3 px-6 rounded-lg transform hover:scale-105 transition-all duration-200 font-bold text-lg shadow-lg hover:shadow-blue-500/50">
+          <button @click="openModalGame" class="flex-1 text-center bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white py-3 px-6 rounded-lg transform hover:scale-105 transition-all duration-200 font-bold text-lg shadow-lg hover:shadow-blue-500/50">
             PLAY
           </button>
           <a :href="route('deck')" class="flex-1 text-center bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-500 hover:to-teal-500 text-white py-3 px-6 rounded-lg transform hover:scale-105 transition-all duration-200 font-bold text-lg shadow-lg hover:shadow-green-500/50">
@@ -151,12 +151,13 @@
         </div>
 
         <div class="flex flex-col gap-4">
-          <button class=" bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-400 hover:to-yellow-400 text-white py-3 px-6 rounded-lg transform hover:scale-105 transition-all duration-200 font-bold shadow-lg hover:shadow-orange-500/50">
+          <button @click="openModalConfig" class="bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-400 hover:to-yellow-400 text-white py-3 px-6 rounded-lg transform hover:scale-105 transition-all duration-200 font-bold shadow-lg hover:shadow-orange-500/50">
             OPTIONS
           </button>
-          <button class=" bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white py-3 px-6 rounded-lg transform hover:scale-105 transition-all duration-200 font-bold shadow-lg hover:shadow-red-500/50">
+          <Link :href="route('logout')" method="post" as="button" 
+                class="bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white py-3 px-6 rounded-lg transform hover:scale-105 transition-all duration-200 font-bold shadow-lg hover:shadow-red-500/50">
             QUIT
-          </button>
+          </Link>
         </div>
       </div>
 
@@ -184,39 +185,49 @@
            }">
       </div>
     </div>
-    <SelectGame
-      v-if="isModalOpen"
+    <SelectGameModal
+      v-if="isModalOpenGame"
       :selected-deck="selectedDeck"
       :selected-mode="selectedMode"
-      @close="closeModal"
+      @close="closeModalGame"
       @start="startGame"
       @update:selected-deck="selectedDeck = $event"
       @update:selected-mode="selectedMode = $event"
-    ></SelectGame>
+    ></SelectGameModal>
+
+    <ConfigModal
+      :show="isModalOpenConfig"
+      @close="closeModalConfig"
+    ></ConfigModal>
   </div>
 </template>
 
 <script>
-import SelectGame from '@/Components/Modal/SelectGame.vue';
+import SelectGameModal from '@/Components/Modal/SelectGameModal.vue';
+import ConfigModal from '@/Components/Modal/ConfigModal.vue';
+import { Link } from '@inertiajs/vue3';
 
 export default {
   name: 'HomePage',
   components: {
-    SelectGame
+    SelectGameModal,
+    ConfigModal,
+    Link,
   },
   data(){
     return{
-      isModalOpen: false,
+      isModalOpenGame: false,
+      isModalOpenConfig: false,
       selectedDeck: null,
       selectedMode: 'casual',
     }
   },
   methods: {
-    openModal() {
-      this.isModalOpen = true;
+    openModalGame() {
+      this.isModalOpenGame = true;
     },
-    closeModal() {
-      this.isModalOpen = false;
+    closeModalGame() {
+      this.isModalOpenGame = false;
     },
     startGame() {
       if (!this.selectedDeck) {
@@ -225,7 +236,13 @@ export default {
       }
       console.log(`Buscando partida con:\nMazo: ${this.decks.find(deck => deck.id === this.selectedDeck).name}\nModo: ${this.selectedMode}`);
       // Aquí puedes redirigir a la pantalla de búsqueda de partida o iniciar la lógica del juego.
-      this.closeModal();
+      this.closeModalGame();
+    },
+    openModalConfig() {
+      this.isModalOpenConfig = true;
+    },
+    closeModalConfig() {
+      this.isModalOpenConfig = false;
     },
   },
 };

@@ -126,8 +126,20 @@
     </div>
 
     <div class="relative z-10 flex flex-col items-center justify-center min-h-screen p-4 text-white">
-      <div class="mb-12 transform hover:scale-105 transition-transform duration-300">
-        <img :src="'/img/logo.png'" alt="Stramers Logo" class="w-64 h-64 object-contain shadow-lg rounded-full border-4 border-purple-500" />
+      <div 
+        ref="logo" 
+        class="mb-12 transform hover:scale-105 transition-transform duration-300 draggable-logo"
+        @mousedown="startDragging"
+        @mousemove="onDrag"
+        @mouseup="stopDragging"
+        @mouseleave="stopDragging"
+        :style="{ transform: `translate(${position.x}px, ${position.y}px)` }">
+        <img 
+          :src="'/img/logo.png'" 
+          alt="Stramers Logo" 
+          draggable="false"
+          class="w-64 h-64 object-contain shadow-lg rounded-full border-4 border-purple-500 select-none" 
+        />
       </div>
 
       <div class="flex flex-row flex-wrap justify-center gap-6 max-w-4xl w-full mb-8">
@@ -229,6 +241,11 @@ export default {
       isModalOpenPerfil: false,
       selectedDeck: null,
       selectedMode: 'casual',
+
+      isDragging: false,
+      startPosition: { x: 0, y: 0 },
+      position: { x: 0, y: 0 },
+      offset: { x: 0, y: 0 },
     }
   },
   methods: {
@@ -258,6 +275,43 @@ export default {
     },
     closeModalPerfil() {
       this.isModalOpenPerfil = false;
+    },
+
+    startDragging(event) {
+      this.isDragging = true;
+      this.startPosition = { x: event.clientX, y: event.clientY };
+      this.offset = {
+        x: this.position.x - event.clientX,
+        y: this.position.y - event.clientY,
+      };
+    },
+    onDrag(event) {
+      if (!this.isDragging) return;
+
+      const deltaX = event.clientX + this.offset.x;
+      const deltaY = event.clientY + this.offset.y;
+
+      // Limitar el movimiento dentro de los límites de la pantalla
+      const bounds = this.$refs.logo.getBoundingClientRect();
+      const parentBounds = this.$refs.logo.parentElement.getBoundingClientRect();
+
+      const maxX = parentBounds.width - bounds.width;
+      const maxY = parentBounds.height - bounds.height;
+
+      this.position.x = Math.max(0, Math.min(deltaX, maxX));
+      this.position.y = Math.max(0, Math.min(deltaY, maxY));
+    },
+    stopDragging() {
+      this.isDragging = false;
+
+      // Animar el regreso a la posición original si se movió mucho
+      if (Math.abs(this.position.x) > 100 || Math.abs(this.position.y) > 100) {
+        this.returnToOriginalPosition();
+      }
+    },
+    returnToOriginalPosition() {
+      this.position.x = 0;
+      this.position.y = 0;
     },
   },
 };
@@ -301,5 +355,19 @@ export default {
 }
 .bg-gradient-to-r:hover {
   background-position: right center;
+}
+
+.draggable-logo {
+  transition: transform 0.5s ease-out;
+  cursor: grab;
+  user-select: none;
+}
+
+.draggable-logo:active {
+  cursor: grabbing;
+}
+
+.draggable-logo img {
+  pointer-events: none; /* Evita la interacción directa con la imagen */
 }
 </style>

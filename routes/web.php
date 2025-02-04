@@ -11,6 +11,7 @@ use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\TiendaController;
 use App\Http\Controllers\CartaController;
 use App\Http\Controllers\SobreController;
+use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -52,8 +53,14 @@ Route::middleware([
     Route::get('/sobres', [SobreController::class, 'get_cost'])->name('sobres.get');
     Route::post('/sobres/open', [SobreController::class, 'openPack'])->name('sobres.open');
 
-
-
+    // User routes
+    Route::prefix('user')->group(function () {
+        Route::get('/profile/{id?}', [UserController::class, 'show'])->name('user.profile');
+        Route::put('/update', [UserController::class, 'update'])->name('user.update');
+        Route::post('/add-friend/{id}', [UserController::class, 'addFriend'])->name('user.addFriend');
+        Route::get('/friends', [UserController::class, 'getFriends'])->name('user.friends');
+        Route::post('/select-deck', [UserController::class, 'selectDeck'])->name('user.selectDeck');
+    });
 
     Route::get('/play', [PlayController::class, 'index'])->name('play');
     Route::get('/shop', [ShopController::class, 'index'])->name('shop');

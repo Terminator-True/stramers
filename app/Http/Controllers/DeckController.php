@@ -176,4 +176,7 @@ class DeckController extends Controller
             ], 500);
         }
     }
+    public function create_deck(){
+        return Inertia::render('Deck/CreateDeck');
+    }
 }

@@ -18,8 +18,6 @@
         Tienda de Cartas
       </h1>
       
-      <button @click="getCardID(1)" > card </button>
-
       <!-- Sobres Section -->
       <div class="w-full max-w-4xl bg-gray-800/50 backdrop-blur-lg rounded-lg p-6 shadow-md mb-8">
         <h2 class="text-2xl font-semibold mb-4 text-purple-400">Sobres de Cartas</h2>

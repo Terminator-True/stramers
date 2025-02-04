@@ -19,7 +19,7 @@
       </h1>
       
       <!-- Create New Deck Button -->
-      <button @click="goToCreateDeck" class="mb-8 px-6 py-3 bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-400 hover:to-teal-400 text-white font-bold rounded-lg shadow-md transform hover:scale-105 transition-all duration-200">
+      <button @click="$inertia.visit(route('create.deck'))" class="mb-8 px-6 py-3 bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-400 hover:to-teal-400 text-white font-bold rounded-lg shadow-md transform hover:scale-105 transition-all duration-200">
         Crear Nuevo Mazo
       </button>
 
@@ -88,9 +88,6 @@
       };
     },
     methods: {
-    goToCreateDeck() {
-      this.$router.push({ name: 'create-deck' }); // Redirige a la página de creación de mazos
-    },
   },
 };
   </script>

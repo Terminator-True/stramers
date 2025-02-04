@@ -40,6 +40,7 @@ Route::middleware([
     Route::put('/deck/{deck}', [DeckController::class, 'update'])->name('deck.update');
     Route::delete('/deck/{deck}', [DeckController::class, 'destroy'])->name('deck.destroy');
     Route::get('/deck/{deck}', [DeckController::class, 'show'])->name('deck.show');
+    Route::get('/create_deck',[DeckController::class, 'create_deck'])->name('create.deck');
 
     
     Route::get('/carta', [CartaController::class, 'index'])->name('carta');

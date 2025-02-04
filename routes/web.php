@@ -10,6 +10,7 @@ use App\Http\Controllers\MensajeController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\TiendaController;
 use App\Http\Controllers\CartaController;
+use App\Http\Controllers\SobreController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -47,6 +48,13 @@ Route::middleware([
     Route::get('/cartas', [CartaController::class, 'get_all_cards'])->name('carta.all');
 
     
+    // Nuevas rutas para Sobre
+    Route::get('/sobres', [SobreController::class, 'get_cost'])->name('sobres.get');
+    Route::post('/sobres/open', [SobreController::class, 'openPack'])->name('sobres.open');
+
+
+
+
     Route::get('/play', [PlayController::class, 'index'])->name('play');
     Route::get('/shop', [ShopController::class, 'index'])->name('shop');
 });

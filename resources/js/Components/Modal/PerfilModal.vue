@@ -1,24 +1,4 @@
 <template>
-    <div class="min-h-screen bg-gradient-to-br from-gray-900 via-purple-950 to-black relative overflow-hidden">
-      <!-- Background pattern -->
-      <div class="absolute inset-0 opacity-10">
-        <div v-for="i in 100" :key="i" 
-             class="h-2 w-2 bg-white rounded-full absolute animate-pulse"
-             :style="{
-               left: `${Math.random() * 100}%`,
-               top: `${Math.random() * 100}%`
-             }">
-        </div>
-      </div>
-  
-      <!-- Main content -->
-      <div class="relative z-10 flex flex-col items-center justify-center min-h-screen p-4 text-white">
-        <!-- Open Profile Button -->
-        <button @click="openModal" class="px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold rounded-lg shadow-lg transform hover:scale-105 transition-all duration-200">
-          Ver Perfil
-        </button>
-      </div>
-  
       <!-- Modal -->
       <div v-if="show" class="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
         <div class="bg-gray-800/90 backdrop-blur-lg rounded-lg w-full max-w-2xl h-[80vh] overflow-y-auto shadow-2xl p-6 space-y-6">
@@ -80,7 +60,6 @@
           </div>
         </div>
       </div>
-    </div>
   </template>
   
   <script>

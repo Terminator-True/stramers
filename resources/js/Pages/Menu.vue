@@ -139,9 +139,9 @@
         </div>
 
         <div class="flex-1 min-w-[300px] bg-gray-800/30 rounded-3xl backdrop-blur-lg p-4 flex gap-4">
-          <a :href="route('play')" class="flex-1 text-center bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white py-3 px-6 rounded-lg transform hover:scale-105 transition-all duration-200 font-bold text-lg shadow-lg hover:shadow-blue-500/50">
+          <button @click="openModal" class="flex-1 text-center bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white py-3 px-6 rounded-lg transform hover:scale-105 transition-all duration-200 font-bold text-lg shadow-lg hover:shadow-blue-500/50">
             PLAY
-          </a>
+          </button>
           <a :href="route('deck')" class="flex-1 text-center bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-500 hover:to-teal-500 text-white py-3 px-6 rounded-lg transform hover:scale-105 transition-all duration-200 font-bold text-lg shadow-lg hover:shadow-green-500/50">
             COLLECTION
           </a>
@@ -184,13 +184,51 @@
            }">
       </div>
     </div>
+    <SelectGame
+      v-if="isModalOpen"
+      :selected-deck="selectedDeck"
+      :selected-mode="selectedMode"
+      @close="closeModal"
+      @start="startGame"
+      @update:selected-deck="selectedDeck = $event"
+      @update:selected-mode="selectedMode = $event"
+    ></SelectGame>
   </div>
 </template>
 
 <script>
+import SelectGame from '@/Components/Modal/SelectGame.vue';
+
 export default {
   name: 'HomePage',
-}
+  components: {
+    SelectGame
+  },
+  data(){
+    return{
+      isModalOpen: false,
+      selectedDeck: null,
+      selectedMode: 'casual',
+    }
+  },
+  methods: {
+    openModal() {
+      this.isModalOpen = true;
+    },
+    closeModal() {
+      this.isModalOpen = false;
+    },
+    startGame() {
+      if (!this.selectedDeck) {
+        console.log('selecciona un mazo.');
+        return;
+      }
+      console.log(`Buscando partida con:\nMazo: ${this.decks.find(deck => deck.id === this.selectedDeck).name}\nModo: ${this.selectedMode}`);
+      // Aquí puedes redirigir a la pantalla de búsqueda de partida o iniciar la lógica del juego.
+      this.closeModal();
+    },
+  },
+};
 </script>
 
 <style scoped>

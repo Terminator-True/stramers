@@ -25,7 +25,7 @@
           <!-- Avatar and Name -->
           <div class="flex flex-col items-center gap-4">
             <div class="relative">
-              <img :src="user.avatar" alt="User Avatar" class="w-32 h-32 object-cover rounded-full border-4 border-purple-500 shadow-lg" />
+              <img :src="$page.props.auth.user.avatar" alt="User Avatar" class="w-32 h-32 object-cover rounded-full border-4 border-purple-500 shadow-lg" />
               <div class="absolute bottom-2 right-2">
                 <button @click="changeAvatar" class="p-2 bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-400 hover:to-teal-400 text-white rounded-full shadow-md transform hover:scale-105 transition-all duration-200">
                   📷
@@ -33,9 +33,9 @@
               </div>
             </div>
             <h1 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
-              {{ user.name }}
+              {{ $page.props.auth.user.name }}
             </h1>
-            <p class="text-gray-400">UID: {{ user.uid }}</p>
+            <p class="text-gray-400">UID: {{ $page.props.auth.user.id }}</p>
           </div>
   
           <!-- Experience Bar -->
@@ -44,7 +44,7 @@
             <div class="w-full bg-gray-700/50 rounded-full h-4">
               <div class="h-full bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full" :style="{ width: `${user.experience}%` }"></div>
             </div>
-            <p class="text-xs text-gray-400">Nivel {{ user.level }} - {{ user.experience }}%</p>
+            <p class="text-xs text-gray-400">Nivel {{ $page.props.auth.user.level }} - {{ $page.props.auth.user.experience_points }}%</p>
           </div>
   
           <!-- Description -->

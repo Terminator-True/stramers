@@ -21,12 +21,8 @@
           </h2>
           <p class="text-gray-400">Ajusta las opciones generales del juego.</p>
           <div class="space-y-2">
-            <label class="block text-sm font-medium text-gray-400">Dificultad</label>
-            <select class="w-full px-4 py-2 bg-gray-700/50 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500">
-              <option>Fácil</option>
-              <option>Normal</option>
-              <option>Difícil</option>
-            </select>
+            <label class="block text-sm font-medium text-gray-400">Controles:</label>
+            <!-- controles -->
           </div>
         </div>
 
@@ -83,12 +79,12 @@
             <!-- Name -->
             <div>
               <label class="block text-sm font-medium text-gray-400">Nombre</label>
-              <input type="text" placeholder="Nuevo Nombre" class="w-full px-4 py-2 bg-gray-700/50 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500" />
+              <input type="text" :placeholder="$page.props.auth.user.name" class="w-full px-4 py-2 bg-gray-700/50 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500" />
             </div>
             <!-- Email -->
             <div>
               <label class="block text-sm font-medium text-gray-400">Correo Electrónico</label>
-              <input type="email" placeholder="nuevo@correo.com" class="w-full px-4 py-2 bg-gray-700/50 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500" />
+              <input type="email" :placeholder="$page.props.auth.user.email" class="w-full px-4 py-2 bg-gray-700/50 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500" />
             </div>
             <!-- Password -->
             <div>

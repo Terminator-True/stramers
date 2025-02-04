@@ -1,7 +1,12 @@
 <template>
-    <div class="min-h-screen bg-gray-900 text-white p-4">
-      <!-- Encabezado -->
-      <h1 class="text-3xl font-bold mb-6">Creador de Mazos</h1>
+    <div class="min-h-screen bg-gray-900 text-white p-4 pt-20 ">
+        <button @click="$inertia.visit(route('dashboard'))" class="absolute top-6 left-6 px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold rounded-lg shadow-lg transform hover:scale-105 transition-all duration-200 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+        </button>
+        <!-- Encabezado -->
+        <h1 class="text-3xl font-bold mb-6">Creador de Mazos</h1>
   
       <!-- Filtros -->
       <div class="mb-6">

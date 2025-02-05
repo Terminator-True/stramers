@@ -62,15 +62,8 @@
           class="bg-gray-800/50 rounded-lg p-4 shadow-lg hover:scale-105 transition-transform duration-300 cursor-pointer"
           @click="addCardToDeck(card)"
         >
-          <!-- <img :src="card.img" alt="Card Image" class="w-full h-48 object-cover rounded-lg mb-2" />
-          <h3 class="text-lg font-bold">{{ card.name }}</h3>
-          <p class="text-sm text-gray-400">{{ card.category }} - {{ card.type }}</p>
-          <div class="flex justify-between mt-2">
-            <span>Costo: {{ card.cost }}</span>
-            <span>DMG: {{ card.dmg }}</span>
-            <span>Vida: {{ card.life }}</span>
-          </div> -->
-          <Card :card="card" />
+
+          <Card3 :card="card" />
 
         </div>
       </div>
@@ -109,10 +102,14 @@
 <script>
 import axios from 'axios';
 import Card from '@/Components/Cards/Card.vue';
+import Card2 from '@/Components/Cards/Card2.vue';
+import Card3 from '@/Components/Cards/Card3.vue';
+
+
 
 export default {
     components:{
-        Card,
+        Card, Card2, Card3
     },
   data() {
     return {

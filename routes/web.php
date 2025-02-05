@@ -42,14 +42,14 @@ Route::middleware([
     Route::get('/deck/{deck}', [DeckController::class, 'show'])->name('deck.show');
     Route::get('/create_deck',[DeckController::class, 'create_deck'])->name('create.deck');
 
-    
+
     Route::get('/carta', [CartaController::class, 'index'])->name('carta');
     Route::post('/carta', [CartaController::class, 'newCard'])->name('carta.store');
     Route::get('/carta/{id}/edit', [CartaController::class, 'getCardId'])->name('get.card.id');
     Route::put('/carta/{id}', [CartaController::class, 'updateCard'])->name('carta.update');
     Route::get('/cartas', [CartaController::class, 'get_all_cards'])->name('carta.all');
 
-    
+
     // Nuevas rutas para Sobre
     Route::get('/sobres', [SobreController::class, 'get_cost'])->name('sobres.get');
     Route::post('/sobres/open', [SobreController::class, 'openPack'])->name('sobres.open');
@@ -65,4 +65,7 @@ Route::middleware([
 
     Route::get('/play', [PlayController::class, 'index'])->name('play');
     Route::get('/shop', [ShopController::class, 'index'])->name('shop');
+
+    //game
+
 });

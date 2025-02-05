@@ -53,7 +53,7 @@ class Card extends Model
             ];
 
             } catch (\Exception $e) {
-                return ['status'=>500,'value'=>$e];
+                return ['status'=>500,'value'=>$e->getMessage()];
             }
     }
 

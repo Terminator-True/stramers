@@ -25,10 +25,10 @@
 
       <!-- Deck List -->
       <div class="w-full max-w-4xl space-y-4">
-        <div v-if="decks.length === 0" class="text-center text-gray-400 text-lg">
+        <div v-if="localDecks.length === 0" class="text-center text-gray-400 text-lg">
           No tienes mazos creados. ¡Crea uno nuevo!
         </div>
-        <div v-for="deck in decks" :key="deck.id" class="flex items-center justify-between bg-gray-800/50 backdrop-blur-lg rounded-lg p-4 shadow-md">
+        <div v-for="deck in localDecks" :key="deck.id" class="flex items-center justify-between bg-gray-800/50 backdrop-blur-lg rounded-lg p-4 shadow-md">
           <!-- Deck Info -->
           <div class="flex items-center gap-4">
             <div class="w-12 h-12 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center text-white font-bold text-xl">
@@ -79,31 +79,32 @@
   <script>
 import axios from 'axios';
 
-
   export default {
 
-    props: [
-      'decks',
-    ],
-    data() {
-      return {
-        newDeckName: ""
-      };
-    },
-    methods: {
-      deleteDeck(id) {
+    props: ['decks'],
+  data() {
+    return {
+      newDeckName: "",
+      localDecks: this.decks // Crea una copia local de los decks
+    };
+  },
+  methods: {
+    deleteDeck(id) {
+    if (confirm('¿Estás seguro de que quieres eliminar este deck?')) {
       axios.delete(route(`deck.destroy`, {deck: id}))
         .then(response => {
           console.log('Deck eliminado con éxito');
-          // Aquí puedes agregar lógica adicional, como actualizar la lista de decks o redirigir al usuario
+          this.localDecks = this.localDecks.filter(deck => deck.id !== id);
+          this.$toast.success('Deck eliminado correctamente');
         })
         .catch(error => {
           console.error('Error al eliminar el deck:', error);
-          // Manejo de errores
+          this.$toast.error('Error al eliminar el deck');
         });
-      }
+    }
+  }
+}
 
-  },
 };
   </script>
 

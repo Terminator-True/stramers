@@ -42,10 +42,10 @@
 
           <!-- Actions -->
           <div class="flex gap-2">
-            <button class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg shadow-sm transform hover:scale-105 transition-all duration-200">
+            <button @click="$inertia.visit(route('deck.show', {deck: deck.id} ))" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg shadow-sm transform hover:scale-105 transition-all duration-200">
               Editar
             </button>
-            <button class="px-4 py-2 bg-red-600 hover:bg-red-500 text-white rounded-lg shadow-sm transform hover:scale-105 transition-all duration-200">
+            <button @click="deleteDeck(deck.id)" class="px-4 py-2 bg-red-600 hover:bg-red-500 text-white rounded-lg shadow-sm transform hover:scale-105 transition-all duration-200">
               Eliminar
             </button>
           </div>
@@ -77,6 +77,9 @@
   </template>
   
   <script>
+import axios from 'axios';
+
+
   export default {
 
     props: [
@@ -88,6 +91,18 @@
       };
     },
     methods: {
+      deleteDeck(id) {
+      axios.delete(route(`deck.destroy`, {deck: id}))
+        .then(response => {
+          console.log('Deck eliminado con éxito');
+          // Aquí puedes agregar lógica adicional, como actualizar la lista de decks o redirigir al usuario
+        })
+        .catch(error => {
+          console.error('Error al eliminar el deck:', error);
+          // Manejo de errores
+        });
+      }
+
   },
 };
   </script>

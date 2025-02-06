@@ -5,10 +5,11 @@
 import SocketHandler from "../func/SocketHandler"
 export default class Game extends Phaser.Scene{
 
-    constructor(){
+    constructor(nickname){
         super({
             key: 'Game'
         })
+        this.nickname = nickname
 
     }
     aggregate(data){
@@ -19,7 +20,7 @@ export default class Game extends Phaser.Scene{
     preload(){}
     create(){
 
-        this.SocketHandler = new SocketHandler(this);
+        this.SocketHandler = new SocketHandler(this, this.nickname);
         this.DeckHandler = new DeckHandler(this)
         this.GameHandler = new GameHandler(this)
         this.UIHandler = new UIHandler(this);

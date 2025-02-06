@@ -10,6 +10,7 @@ use App\Http\Controllers\MensajeController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\TiendaController;
 use App\Http\Controllers\CartaController;
+use App\Http\Controllers\PrePartidaController;
 use App\Http\Controllers\SobreController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
@@ -65,6 +66,8 @@ Route::middleware([
 
     Route::get('/play', [PlayController::class, 'index'])->name('play');
     Route::get('/shop', [ShopController::class, 'index'])->name('shop');
+
+    Route::post('/game/matchmaking', [PrePartidaController::class, 'getInMatchMaking'])->name('game.matchmaking');
 
     //game
 

@@ -63,7 +63,7 @@
           @click="addCardToDeck(card)"
         >
 
-          <Card3 :card="card" />
+          <Card2 :card="card" />
 
         </div>
       </div>

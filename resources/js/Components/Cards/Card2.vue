@@ -1,9 +1,9 @@
 <template>
-    <div class="relative w-[300px] select-none">
+    <!-- <div class="relative w-[300px] select-none"> -->
       <!-- Card Container with gradient border -->
-      <div class="relative rounded-2xl overflow-hidden transform transition-transform hover:scale-105">
+      <!-- <div class="relative rounded-2xl overflow-hidden transform transition-transform hover:scale-105"> -->
         <!-- Gradient Border -->
-        <div class="absolute inset-0 bg-gradient-to-b from-blue-400 via-purple-500 to-orange-500 rounded-2xl p-[2px]">
+        <!-- <div class="absolute inset-0 bg-gradient-to-b from-blue-400 via-purple-500 to-orange-500 rounded-2xl p-[2px]"> -->
           <!-- Main Card Body -->
           <div class="relative bg-gradient-to-b from-gray-800 to-gray-900 rounded-2xl overflow-hidden h-[420px]">
             <!-- Mana Cost -->
@@ -19,7 +19,7 @@
   
             <!-- Card Art -->
             <div class="w-full h-[230px] relative overflow-hidden">
-              <!-- <img :src="'/storage/' + card.img" :alt="card.name" class="w-full h-full object-cover" /> -->
+              <img :src="'/storage/cards/' + card.img" :alt="card.name" class="w-full h-full object-cover" />
               <!-- Darkening Overlay -->
               <div class="absolute inset-0 bg-gradient-to-t from-gray-900 opacity-40"></div>
             </div>
@@ -66,9 +66,9 @@
               }" style="transform: rotate(45deg)"></div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
+        <!-- </div> -->
+      <!-- </div> -->
+    <!-- </div> -->
   </template>
   
   <script>

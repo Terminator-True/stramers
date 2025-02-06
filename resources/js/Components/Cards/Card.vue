@@ -1,7 +1,7 @@
 <template>
     <div
       class="relative w-64 h-96 border border-black rounded-lg shadow-xl overflow-hidden transform hover:scale-105 transition-transform duration-300"
-      :style="{ backgroundImage: `url(${card.img})`, backgroundSize: 'cover', backgroundPosition: 'center' }"
+      :style="{ backgroundImage: `url(${'/storage/cards/' + card.img})`, backgroundSize: 'cover', backgroundPosition: 'center' }"
     >
       <!-- Nombre de la carta -->
       <div class="absolute top-4 left-4 text-white font-bold text-2xl z-10">

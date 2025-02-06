@@ -33,12 +33,12 @@ class PrePartidaController extends Controller
                 $game_abaliable = Game::query()->where('status',0)->first();
 
                 if(!$game_abaliable){
-                    Game::create([
+                    $game = Game::create([
                         'name' => 'Partida de '.$user->nick,
                         'status' => 0,
                         'winner' => null
                     ]);
-                    return ['status' => 200, 'message' => 'Esperando a otro jugador'];
+                    return ['status' => 200,'data'=>$game, 'message' => 'Esperando a otro jugador'];
                 }
 
                 $user->set_status(3);

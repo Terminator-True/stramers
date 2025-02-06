@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\MatchMakingEvent;
 use App\Models\User;
 use App\Models\Game;
 use Illuminate\Http\Request;
@@ -45,6 +46,7 @@ class PrePartidaController extends Controller
                 $game_abaliable->status = 1;
                 $game_abaliable->save();
                 $game_abaliable->users()->attach($user->id);
+                event(new MatchMakingEvent($game_abaliable));
                 return ['status' => 200, 'message' => 'Partida encontrada', 'game' => $game_abaliable];
 
             }
@@ -53,7 +55,8 @@ class PrePartidaController extends Controller
         }catch(Exception $e){
             return null;
         }
-
     }
+
+    
 
 }

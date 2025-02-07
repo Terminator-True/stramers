@@ -64,7 +64,6 @@ class DeckController extends Controller
 
             $request->merge(['user_id' => Auth::id()]);
             $result = Deck::create($request);
-
             if ($result) {
                 return response()->json([
                     'status' => 200,

@@ -1,27 +1,27 @@
 <template>
-  <div class="min-h-screen bg-gray-900 text-white p-4 pt-20">
-    <button @click="$inertia.visit(route('dashboard'))" class="absolute top-6 left-6 px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold rounded-lg shadow-lg transform hover:scale-105 transition-all duration-200 flex items-center gap-2">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+  <div class="min-h-screen p-4 pt-20 text-white bg-gray-900">
+    <button @click="$inertia.visit(route('dashboard'))" class="absolute flex items-center gap-2 px-6 py-3 font-bold text-white transition-all duration-200 transform rounded-lg shadow-lg top-6 left-6 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 hover:scale-105">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
       </svg>
     </button>
     <!-- Encabezado -->
-    <h1 class="text-3xl font-bold mb-6">Creador de Mazos</h1>
+    <h1 class="mb-6 text-3xl font-bold">Creador de Mazos</h1>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
       <!-- Constructor de Mazo (Izquierda) -->
       <div>
         <!-- Filtros -->
         <div class="mb-6">
-          <h2 class="text-xl font-semibold mb-2">Filtrar Cartas</h2>
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <h2 class="mb-2 text-xl font-semibold">Filtrar Cartas</h2>
+          <div class="grid grid-cols-2 gap-4 md:grid-cols-4">
             <div>
               <label class="block mb-1">Nombre:</label>
-              <input v-model="filters.name" type="text" placeholder="Buscar por nombre" class="w-full bg-gray-800 rounded-md px-3 py-2" />
+              <input v-model="filters.name" type="text" placeholder="Buscar por nombre" class="w-full px-3 py-2 bg-gray-800 rounded-md" />
             </div>
             <div>
               <label class="block mb-1">Raridad:</label>
-              <select v-model="filters.rarity" class="w-full bg-gray-800 rounded-md px-3 py-2">
+              <select v-model="filters.rarity" class="w-full px-3 py-2 bg-gray-800 rounded-md">
                 <option value="">Todas</option>
                 <option value="Common">Común</option>
                 <option value="Rare">Rara</option>
@@ -31,19 +31,19 @@
             </div>
             <div>
               <label class="block mb-1">Costo:</label>
-              <input v-model.number="filters.cost" type="number" placeholder="Costo" class="w-full bg-gray-800 rounded-md px-3 py-2" />
+              <input v-model.number="filters.cost" type="number" placeholder="Costo" class="w-full px-3 py-2 bg-gray-800 rounded-md" />
             </div>
             <div>
               <label class="block mb-1">Daño:</label>
-              <input v-model.number="filters.dmg" type="number" placeholder="Daño" class="w-full bg-gray-800 rounded-md px-3 py-2" />
+              <input v-model.number="filters.dmg" type="number" placeholder="Daño" class="w-full px-3 py-2 bg-gray-800 rounded-md" />
             </div>
             <div>
               <label class="block mb-1">Vida:</label>
-              <input v-model.number="filters.hp" type="number" placeholder="Vida" class="w-full bg-gray-800 rounded-md px-3 py-2" />
+              <input v-model.number="filters.hp" type="number" placeholder="Vida" class="w-full px-3 py-2 bg-gray-800 rounded-md" />
             </div>
             <div>
               <label class="block mb-1">Tipo:</label>
-              <select v-model="filters.type" class="w-full bg-gray-800 rounded-md px-3 py-2">
+              <select v-model="filters.type" class="w-full px-3 py-2 bg-gray-800 rounded-md">
                 <option value="">Todos</option>
                 <option value="Spell">Hechizo</option>
                 <option value="Enchantment">Encantamiento</option>
@@ -52,17 +52,17 @@
             </div>
             <div>
               <label class="block mb-1">Usos:</label>
-              <input v-model.number="filters.usos" type="number" placeholder="Usos" class="w-full bg-gray-800 rounded-md px-3 py-2" />
+              <input v-model.number="filters.usos" type="number" placeholder="Usos" class="w-full px-3 py-2 bg-gray-800 rounded-md" />
             </div>
           </div>
         </div>
 
         <!-- Lista de Cartas -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4">
           <div
             v-for="card in filteredCards"
             :key="card.id"
-            class="bg-gray-800/50 rounded-lg p-4 shadow-lg hover:scale-105 transition-transform duration-300 cursor-pointer"
+            class="p-4 transition-transform duration-300 rounded-lg shadow-lg cursor-pointer bg-gray-800/50 hover:scale-105"
             @click="addCardToDeck(card)"
           >
             <Card :card="card" />
@@ -74,12 +74,12 @@
 
       <!-- Lista de Cartas Seleccionadas (Derecha) -->
       <div>
-        <h2 class="text-xl font-semibold mb-4">Cartas Seleccionadas {{ totalCardsInDeck }}</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <h2 class="mb-4 text-xl font-semibold">Cartas Seleccionadas {{ totalCardsInDeck }}</h2>
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           <div
             v-for="cardItem in deck"
             :key="cardItem.card.id"
-            class="bg-gray-700 rounded-lg p-4 shadow-lg flex items-center justify-between mb-2"
+            class="flex items-center justify-between p-4 mb-2 bg-gray-700 rounded-lg shadow-lg"
           >
             <div>
               <h3 class="text-lg font-bold text-white">{{ cardItem.card.name }}</h3>
@@ -97,7 +97,7 @@
         <!-- Botón Crear Mazo -->
         <button
           @click="createDeck"
-          class="mt-6 bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-6 rounded-lg w-full"
+          class="w-full px-6 py-3 mt-6 font-bold text-white bg-blue-600 rounded-lg hover:bg-blue-500"
         >
           Crear Mazo
         </button>
@@ -133,6 +133,7 @@ export default {
         Rare: 8,
         Common: Infinity,
       },
+      deck_to_request: [],
     };
   },
   computed: {
@@ -180,6 +181,7 @@ export default {
       } else {
         // Si no está en el mazo, la agregamos con cantidad inicial de 1
         this.deck.push({ card: card, count: 1 });
+        this.deck_to_request.push({ card: card.id, count: 1 });
       }
     },
     removeCardFromDeck(cardId) {
@@ -202,8 +204,17 @@ export default {
       return card;
     },
     createDeck() {
+      
+    let config = {
+      method: 'post',
+      url: route('deck.store'),
+      data: {
+        name: "mazo",
+        cards: this.deck_to_request,
+      },
+    }
       if (this.deck.reduce((total, deckItem) => total + deckItem.count, 0) >= 30){
-        axios.post(route('deck.store', { name: "mazo", cards: this.deck  } ))
+        axios.request(config)
         .then(response => {
           alert("Mazo creado!");
           console.log("Mazo:", this.deck);

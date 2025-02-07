@@ -17,6 +17,7 @@ class Deck extends Model
         'user_id',
         'name',
         'selected',
+        'usos',
         'card_count'
     ];
 
@@ -94,19 +95,22 @@ class Deck extends Model
     public static function create(Request $request)
     {
         try {
-
             $deck = new Deck();
             $deck->name = $request->input('name');
             $deck->selected = false;
-            $deck->usos = 0;
+            // $deck->usos = 0;
             $deck->user_id =$request->input('user_id');
             $deck->save();
+
+            //TODO Añadir attach la cantidad de cartas que se mencionen en el request
+            //ejemplo: [{"card_id"=>"1","quantity"=>"2"},{"card_id"=>"2","quantity"=>"1"}] 
+            //Solo se tiene que hacer un for añadiendo al attach el mismo id, las veces que se mencionen en quantity
             $deck->cards()->attach($request->input('cards'));
 
             return true;
 
         } catch (Exception $e) {
-           return null;
+           return $e->getMessage();
         }
     }
 

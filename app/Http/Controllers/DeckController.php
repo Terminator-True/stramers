@@ -57,9 +57,11 @@ class DeckController extends Controller
     public function store(Request $request)
     {
         try {
-            $request->validate([
-                'name' => 'required|string|max:255',
-                'cards' => 'required|array'
+            $validatedData = $request->validate([
+                'name' => 'required|string',
+                'cards' => 'required|array',
+                'cards.*.cardId' => 'required|integer|exists:cards,id',
+                'cards.*.count' => 'required|integer|min:1',
             ]);
 
             $request->merge(['user_id' => Auth::id()]);

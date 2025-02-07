@@ -181,7 +181,7 @@ export default {
       } else {
         // Si no está en el mazo, la agregamos con cantidad inicial de 1
         this.deck.push({ card: card, count: 1 });
-        this.deck_to_request.push({ card: card.id, count: 1 });
+        // this.deck_to_request.push({ card: card.id, count: 1 });
       }
     },
     removeCardFromDeck(cardId) {
@@ -204,7 +204,10 @@ export default {
       return card;
     },
     createDeck() {
-      
+      this.deck_to_request = this.deck.map(item => ({
+        cardId: item.card.id,
+        count: item.count
+      }));
     let config = {
       method: 'post',
       url: route('deck.store'),
@@ -213,7 +216,7 @@ export default {
         cards: this.deck_to_request,
       },
     }
-      if (this.deck.reduce((total, deckItem) => total + deckItem.count, 0) >= 30){
+      if (this.deck.reduce((total, deckItem) => total + deckItem.count, 0) >= 10){
         axios.request(config)
         .then(response => {
           alert("Mazo creado!");

@@ -37,7 +37,13 @@ class Card extends Model
 
     public function decks()
     {
-        return $this->belongsToMany(Deck::class)->withPivot('quantity');
+        return $this->belongsToMany(
+            Deck::class,          // Modelo relacionado
+            'card_deck',          // Nombre de la tabla pivote
+            'card_id',            // Clave foránea del modelo Card (actual)
+            'deck_id'             // Clave foránea del modelo Deck (relacionado)
+        )
+        ->withPivot('quantity');  // Incluir el campo 'quantity'
     }
 
     /**

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class Deck extends Model
 {
@@ -32,7 +33,13 @@ class Deck extends Model
 
     public function cards()
     {
-        return $this->belongsToMany(Card::class);
+        return $this->belongsToMany(
+            Card::class,          // Modelo relacionado
+            'card_deck',          // Nombre de la tabla pivote
+            'deck_id',            // Clave foránea del modelo Deck (actual)
+            'card_id'             // Clave foránea del modelo Card (relacionado)
+        )
+        ->withPivot('quantity');  // Incluir el campo 'quantity'
     }
 
 
@@ -95,22 +102,46 @@ class Deck extends Model
     public static function create(Request $request)
     {
         try {
+            DB::enableQueryLog();
+            
             $deck = new Deck();
             $deck->name = $request->input('name');
             $deck->selected = false;
             // $deck->usos = 0;
             $deck->user_id =$request->input('user_id');
+            // $deck->card_count = x;
             $deck->save();
+            
+            // TODO attach el que deberia ser para crear pero no va
+            foreach ($request->input('cards') as $card) {
+                $deck->cards()->attach([
+                    $card['cardId'] => ['quantity' => $card['count']]
+                ]);
+            }
 
-            //TODO Añadir attach la cantidad de cartas que se mencionen en el request
-            //ejemplo: [{"card_id"=>"1","quantity"=>"2"},{"card_id"=>"2","quantity"=>"1"}] 
-            //Solo se tiene que hacer un for añadiendo al attach el mismo id, las veces que se mencionen en quantity
-            $deck->cards()->attach($request->input('cards'));
+            // Forzr el orden anque no va
+            // foreach ($request->input('cards') as $card) {
+            //     DB::table('card_deck')->insert([
+            //         'deck_id' => $deck->id,
+            //         'card_id' => $card['cardId'],
+            //         'quantity' => $card['count'],
+            //     ]);
+            // }
 
-            return true;
+            // Sync anque esto se usa para updatear y remplazar
+            // $cardsToSync = [];
+            // foreach ($request->input('cards') as $card) {
+            //     $cardsToSync[$card['cardId']] = ['quantity' => $card['count']];
+            // }
+            // $deck->cards()->sync($cardsToSync);
+
+            $queries = DB::getQueryLog();
+            dd($queries);
+
+            return response()->json(['message' => 'Deck creado exitosamente', 'deck' => $deck], 201);
 
         } catch (Exception $e) {
-           return $e->getMessage();
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 

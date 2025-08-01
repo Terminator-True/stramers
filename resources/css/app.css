@@ -5,3 +5,14 @@
 [x-cloak] {
     display: none;
 }
+
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) rotate(360 deg);
+    }
+    
+    50% {
+        transform: translateY(-80px) rotate(360 deg);
+    }
+}

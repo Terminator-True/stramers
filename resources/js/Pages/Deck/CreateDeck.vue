@@ -8,9 +8,9 @@
     <!-- Encabezado -->
     <h1 class="mb-6 text-3xl font-bold">Creador de Mazos</h1>
 
-    <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
-      <!-- Constructor de Mazo (Izquierda) -->
-      <div>
+    <div class="grid grid-cols-1 gap-8 md:grid-cols-4">
+      <!-- Constructor de Mazo (Izquierda, 75%) -->
+      <div class="md:col-span-3">
         <!-- Filtros -->
         <div class="mb-6">
           <h2 class="mb-2 text-xl font-semibold">Filtrar Cartas</h2>
@@ -62,20 +62,19 @@
           <div
             v-for="card in filteredCards"
             :key="card.id"
-            class="p-4 transition-transform duration-300 rounded-lg shadow-lg cursor-pointer bg-gray-800/50 hover:scale-105"
-            @click="addCardToDeck(card)"
+            class="flex items-center justify-center"
           >
-            <Card :card="card" />
+            <Card :card="card" @click="addCardToDeck(card)" />
           </div>
         </div>
 
-        
+
       </div>
 
-      <!-- Lista de Cartas Seleccionadas (Derecha) -->
-      <div>
+      <!-- Lista de Cartas Seleccionadas (Derecha, 25%) -->
+      <div class="md:col-span-1">
         <h2 class="mb-4 text-xl font-semibold">Cartas Seleccionadas {{ totalCardsInDeck }}</h2>
-        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <div class="grid grid-cols-1 gap-4">
           <div
             v-for="cardItem in deck"
             :key="cardItem.card.id"
@@ -204,7 +203,7 @@ export default {
       return card;
     },
     createDeck() {
-      
+
     let config = {
       method: 'post',
       url: route('deck.store'),

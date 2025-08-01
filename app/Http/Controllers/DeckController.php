@@ -24,7 +24,7 @@ class DeckController extends Controller
 
     /**
      * Obtiene todos los mazos de un usuario específico
-     * 
+     *
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -32,14 +32,14 @@ class DeckController extends Controller
     {
         try {
             $userId = $request->user()->id;
-            
+
             $decks = Deck::getAllByUserId($userId);
-            
+
             return response()->json([
                 'status' => 200,
                 'data' => $decks
             ]);
-            
+
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 500,

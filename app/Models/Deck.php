@@ -105,6 +105,15 @@ class Deck extends Model
             //TODO Añadir attach la cantidad de cartas que se mencionen en el request
             //ejemplo: [{"card_id"=>"1","quantity"=>"2"},{"card_id"=>"2","quantity"=>"1"}] 
             //Solo se tiene que hacer un for añadiendo al attach el mismo id, las veces que se mencionen en quantity
+
+            $cartas = $request->input('cards');
+            
+            foreach ($cartas as $carta) {
+                for ($i=0; $i < $carta['quantity']; $i++) { 
+                    $deck->cards()->attach($carta['card_id']);
+                }
+            }
+
             $deck->cards()->attach($request->input('cards'));
 
             return true;

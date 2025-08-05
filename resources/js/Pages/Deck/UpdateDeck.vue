@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen p-4 pt-20 text-white bg-gray-900">
-    <button @click="$inertia.visit(route('dashboard'))" class="absolute flex items-center gap-2 px-6 py-3 font-bold text-white transition-all duration-200 transform rounded-lg shadow-lg top-6 left-6 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 hover:scale-105">
+    <button @click="goToDeck" class="absolute flex items-center gap-2 px-6 py-3 font-bold text-white transition-all duration-200 transform rounded-lg shadow-lg top-6 left-6 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 hover:scale-105">
       <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
       </svg>
@@ -175,6 +175,9 @@ export default {
     }
   },
   methods: {
+    goToDeck() {
+      this.$inertia.get(route('deck.list'));
+    },
     addCardToDeck(card) {
       const existingCardIndex = this.deck.findIndex(deckItem => deckItem.card.id === card.id);
 

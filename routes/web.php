@@ -35,7 +35,7 @@ Route::middleware([
         return Inertia::render('Menu');
     })->name('dashboard');
 
-    Route::get('/deck', [DeckController::class, 'index'])->name('deck');
+    Route::get('/deck', [DeckController::class, 'index'])->name('deck.list');
     Route::get('/deck/list/{id?}', [DeckController::class, 'getUserDecks'])->name('get.decks');
     Route::post('/deck', [DeckController::class, 'store'])->name('deck.store');
     Route::put('/deck/{deck}', [DeckController::class, 'update'])->name('deck.update');
@@ -51,10 +51,12 @@ Route::middleware([
     Route::get('/cartas', [CartaController::class, 'get_all_cards'])->name('carta.all');
 
 
+
+
     // Nuevas rutas para Sobre
     Route::get('/sobres', [SobreController::class, 'get_cost'])->name('sobres.get');
     Route::post('/sobres/open', [SobreController::class, 'openPack'])->name('sobres.open');
-
+    Route::get('/shop/random-cards', [ShopController::class, 'randomShopCards'])->name('shop.randomCards');
     // User routes
     Route::prefix('user')->group(function () {
         Route::get('/profile/{id?}', [UserController::class, 'show'])->name('user.profile');

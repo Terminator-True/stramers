@@ -30,7 +30,7 @@
         <button @click="openModalGame" class="flex-1 px-6 py-3 text-lg font-bold text-center text-white transition-all duration-200 transform rounded-lg shadow-lg bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 hover:scale-105 hover:shadow-blue-500/50">
           PLAY
         </button>
-        <button @click="$inertia.visit(route('deck'))" class="flex-1 px-6 py-3 text-lg font-bold text-center text-white transition-all duration-200 transform rounded-lg shadow-lg bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-500 hover:to-teal-500 hover:scale-105 hover:shadow-green-500/50">
+        <button @click="$inertia.visit(route('deck.list'))" class="flex-1 px-6 py-3 text-lg font-bold text-center text-white transition-all duration-200 transform rounded-lg shadow-lg bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-500 hover:to-teal-500 hover:scale-105 hover:shadow-green-500/50">
           COLLECTION
         </button>
         <button @click="$inertia.visit(route('shop'))" class="flex-1 px-6 py-3 text-lg font-bold text-center text-white transition-all duration-200 transform rounded-lg shadow-lg bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 hover:scale-105 hover:shadow-purple-500/50">

@@ -49,16 +49,14 @@
         <h2 class="mb-4 text-2xl font-semibold text-purple-400">Cartas Individuales</h2>
         <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
           <div v-for="card in cards" :key="card.id" class="flex flex-col items-center gap-2 p-4 rounded-lg shadow-md bg-gray-700/50 backdrop-blur-lg">
-            <img :src="card.image" alt="Card Image" class="object-cover w-24 h-32 rounded-lg" />
-            <p class="text-lg font-semibold">{{ card.name }}</p>
-            <p class="text-gray-400">{{ card.price }} Coins</p>
+            <Card :card="card" />
+            <p class="text-gray-400">{{ card.price ? card.price + ' Coins' : '' }}</p>
             <button @click="buyCard(card.id)" class="px-4 py-2 font-bold text-white transition-all duration-200 transform rounded-lg shadow-sm bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-400 hover:to-indigo-500 hover:scale-105">
               Comprar
             </button>
           </div>
         </div>
       </div>
-
 
       <Card v-if="card && card.img" :card="card" class="mt-10" />
 
@@ -70,12 +68,34 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue';
 import Card from '@/Components/Cards/Card.vue';
 import axios from 'axios';
 import MainLayout from '@/Layouts/MainLayout.vue';
 
 defineOptions({ layout: MainLayout });
 
+const cards = ref([]);
+
+onMounted(async () => {
+    await getRandomCards();
+});
+
+function buyCard(cardId) {
+  // Implementa aquí la lógica de compra
+  alert('Comprar carta con id: ' + cardId);
+}
+
+async function getRandomCards() {
+   try {
+    const response = await axios.get(route('shop.randomCards'));
+    if (response.data && response.data.cards) {
+      cards.value = response.data.cards;
+    }
+  } catch (e) {
+    console.error('Error al obtener cartas aleatorias:', e);
+  }
+}
 </script>
 
 <style scoped>

@@ -10,7 +10,7 @@
       </h1>
 
       <!-- Sobres Section -->
-      <div class="w-full max-w-4xl p-6 mb-8 rounded-lg shadow-md bg-gray-800/50 backdrop-blur-lg">
+      <!-- <div class="w-full max-w-4xl p-6 mb-8 rounded-lg shadow-md bg-gray-800/50 backdrop-blur-lg">
         <h2 class="mb-4 text-2xl font-semibold text-purple-400">Sobres de Cartas</h2>
         <div class="flex justify-around gap-4">
           <div v-for="pack in packs" :key="pack.type" class="flex flex-col items-center gap-2">
@@ -20,7 +20,7 @@
             <p class="text-gray-400">{{ pack.price }} Coins</p>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <button @click="$inertia.visit(route('dashboard'))" class="absolute flex items-center gap-2 px-6 py-3 font-bold text-white transition-all duration-200 transform rounded-lg shadow-lg top-6 left-6 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 hover:scale-105">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -45,9 +45,15 @@
           <button @click="spinWheel" :disabled="spinning" class="px-6 py-2 font-bold text-white transition-all duration-200 transform rounded-lg shadow-md bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-400 hover:to-teal-400 hover:scale-105 disabled:opacity-50">
             Girar Ruleta (50 Coins)
           </button>
-          <div v-if="resultRarity" class="mt-4 text-xl font-bold" :class="rarityColorClass(resultRarity)">
+          <div v-if="resultRarity" class="mt-4 text-xl font-bold " :class="rarityColorClass(resultRarity)">
             ¡Obtuviste una carta <span>{{ resultRarity }}</span>!
           </div>
+          <div v-else-if="spinning" class="mt-4 text-lg text-gray-400">
+            Espere mientras gira la ruleta.
+          </div>
+        <div v-else class="mt-4 text-lg text-gray-400">
+            Gana cartas al girar la ruleta.
+        </div>
         </div>
       </div>
 

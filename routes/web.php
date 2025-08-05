@@ -57,6 +57,7 @@ Route::middleware([
     Route::get('/sobres', [SobreController::class, 'get_cost'])->name('sobres.get');
     Route::post('/sobres/open', [SobreController::class, 'openPack'])->name('sobres.open');
     Route::get('/shop/random-cards', [ShopController::class, 'randomShopCards'])->name('shop.randomCards');
+    Route::get('/shop/ruleta-card', [ShopController::class, 'get_ruleta_card'])->name('shop.ruletaCard');
     // User routes
     Route::prefix('user')->group(function () {
         Route::get('/profile/{id?}', [UserController::class, 'show'])->name('user.profile');

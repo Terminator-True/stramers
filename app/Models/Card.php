@@ -49,6 +49,7 @@ class Card extends Model
         try {
             return['status'=>200,'value'=> Card::query()
             ->where('obtainable', true)
+            ->orderBy('rarity', 'desc')
             ->get()
             ];
 
@@ -56,6 +57,8 @@ class Card extends Model
                 return ['status'=>500,'value'=>$e->getMessage()];
             }
     }
+
+
 
     /**
      * @param card_id ID de la carta a buscar

@@ -93,10 +93,13 @@ class DeckController extends Controller
     public function show($id)
     {
         try {
-            $deck = new Deck();
-            $result = $deck->get_deck_by_id($id);
+            $cards = Auth::user()->cards;
+            $deck = Deck::where('id', $id)->with('cards')->first();
 
-            return response()->json($result, $result['status']);
+            return Inertia::render('Deck/UpdateDeck', [
+                'deck' => $deck->first(), // Incluye las cartas y el id
+                'cards' => $cards
+            ]);
 
         } catch (\Exception $e) {
             return response()->json([

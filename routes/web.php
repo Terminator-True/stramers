@@ -36,12 +36,12 @@ Route::middleware([
     })->name('dashboard');
 
     Route::get('/deck', [DeckController::class, 'index'])->name('deck');
-    Route::get('/deck_list/{id?}', [DeckController::class, 'getUserDecks'])->name('get.decks');
+    Route::get('/deck/list/{id?}', [DeckController::class, 'getUserDecks'])->name('get.decks');
     Route::post('/deck', [DeckController::class, 'store'])->name('deck.store');
     Route::put('/deck/{deck}', [DeckController::class, 'update'])->name('deck.update');
     Route::delete('/deck/{deck}', [DeckController::class, 'destroy'])->name('deck.destroy');
-    Route::get('/deck/{deck}', [DeckController::class, 'show'])->name('deck.show');
-    Route::get('/create_deck',[DeckController::class, 'create_deck'])->name('create.deck');
+    Route::get('/deck/update/{deck}', [DeckController::class, 'show'])->name('deck.show');
+    Route::get('/deck/create',[DeckController::class, 'create_deck'])->name('create.deck');
 
 
     Route::get('/carta', [CartaController::class, 'index'])->name('carta');

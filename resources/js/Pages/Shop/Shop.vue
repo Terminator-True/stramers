@@ -71,7 +71,16 @@
         </div>
       </div>
 
-      <Card v-if="card && card.img" :card="card" class="mt-10" />
+      <!-- Popup de carta obtenida por ruleta -->
+      <div v-if="ruletaCard" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
+        <div class="relative flex flex-col items-center w-full max-w-xs p-8 bg-gray-900 shadow-2xl rounded-xl">
+          <button @click="ruletaCard = null" class="absolute text-2xl font-bold text-gray-400 top-2 right-2 hover:text-white">&times;</button>
+          <h3 class="mb-4 text-xl font-bold text-center text-purple-300">¡Has ganado una carta!</h3>
+          <Card v-if="ruletaCard.img" :card="ruletaCard" class="mb-4" />
+          <div v-else class="mb-4 text-lg text-red-400">{{ ruletaCard.name }}</div>
+          <button @click="ruletaCard = null" class="px-6 py-2 mt-2 font-bold text-white rounded-lg shadow bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-400 hover:to-teal-400">Cerrar</button>
+        </div>
+      </div>
 
     </div>
 
@@ -86,11 +95,12 @@ import { ref, onMounted, nextTick } from 'vue';
 const wheelCanvas = ref(null);
 const spinning = ref(false);
 const resultRarity = ref('');
+const ruletaCard = ref(null);
 const wheelSectors = [
   { label: 'legendary', color: '#FFD700', probability: 1 },   // 1%
-  { label: 'epic', color: '#8B5CF6', probability: 4 },        // 4%
+  { label: 'epic', color: '#8B5CF6', probability: 9 },        // 4%
   { label: 'normal', color: '#60A5FA', probability: 30 },     // 30%
-  { label: 'common', color: '#A3E635', probability: 65 },     // 65%
+  { label: 'common', color: '#A3E635', probability: 60 },     // 65%
 ];
 
 function getWheelSlices() {
@@ -145,15 +155,17 @@ async function spinWheel() {
   if (spinning.value) return;
   spinning.value = true;
   resultRarity.value = '';
+  ruletaCard.value = null;
   const slices = getWheelSlices();
   const n = slices.length;
-  // Elegir resultado aleatorio según probabilidad
-  const resultIndex = Math.floor(Math.random() * n);
-  const result = slices[resultIndex];
   // Animación de giro
   let angle = 0;
   let spins = 6 + Math.random() * 2; // vueltas completas
-  const finalAngle = (2 * Math.PI * spins) + (2 * Math.PI * (resultIndex / n));
+  const sectorAngle = (2 * Math.PI) / n;
+  // Elegimos un ángulo aleatorio para el resultado
+  const randomAngle = Math.random() * 2 * Math.PI;
+  // El ángulo final apunta ese sector hacia arriba (0 radianes)
+  const finalAngle = (2 * Math.PI * spins) + (2 * Math.PI) - randomAngle;
   const duration = 2200;
   const start = performance.now();
   function animate(now) {
@@ -166,12 +178,30 @@ async function spinWheel() {
     if (t < 1) {
       requestAnimationFrame(animate);
     } else {
-      // Mostrar resultado
-      resultRarity.value = result.label;
+      // Calcular el sector donde cae la aguja (arriba, 0 radianes)
+      let landedAngle = (2 * Math.PI - (angle % (2 * Math.PI))) % (2 * Math.PI);
+      let landedIndex = Math.floor(landedAngle / sectorAngle) % n;
+      const landed = slices[landedIndex];
+      resultRarity.value = landed.label;
       spinning.value = false;
+      getRuletaCard(landed.label);
     }
   }
   requestAnimationFrame(animate);
+}
+
+async function getRuletaCard(rarity) {
+  try {
+    const response = await axios.get(route('shop.ruletaCard'), { params: { rarity } });
+    if (response.data && response.data.status === 200 && response.data.value) {
+      ruletaCard.value = response.data.value;
+    } else {
+      ruletaCard.value = { name: 'No hay carta disponible', img: null };
+    }
+  } catch (e) {
+    ruletaCard.value = { name: 'Error al obtener carta', img: null };
+    console.error('Error al obtener carta de la ruleta:', e);
+  }
 }
 import Card from '@/Components/Cards/Card.vue';
 import axios from 'axios';

@@ -57,7 +57,10 @@ class ShopController extends Controller
             ->where('rarity', $rarity)
             ->where('obtainable', true)
             ->whereDoesntHave('user', function ($query) use ($user) {
-                $query->where('user_id', $user->id)->wherePivot('quantity', '>=', 2);
+                $query->where('user_id', $user->id)
+                      ->where(function($q) {
+                          $q->where('card_user.quantity', '>=', 2);
+                      });
             })
             ->inRandomOrder()
             ->first();
@@ -67,7 +70,10 @@ class ShopController extends Controller
             $card = Card::query()
                 ->where('obtainable', true)
                 ->whereDoesntHave('user', function ($query) use ($user) {
-                    $query->where('user_id', $user->id)->wherePivot('quantity', '>=', 2);
+                    $query->where('user_id', $user->id)
+                          ->where(function($q) {
+                              $q->where('card_user.quantity', '>=', 2);
+                          });
                 })
                 ->inRandomOrder()
                 ->first();

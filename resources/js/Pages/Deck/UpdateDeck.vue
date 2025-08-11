@@ -74,7 +74,7 @@
         <h2 class="mb-4 text-xl font-semibold">Cartas Seleccionadas {{ totalCardsInDeck }}</h2>
         <div class="grid grid-cols-1 gap-4">
           <div
-            v-for="cardItem in deck"
+            v-for="cardItem in deck.filter(item => item && item.card)"
             :key="cardItem.card.id"
             class="flex items-center justify-between p-4 mb-2 bg-gray-700 rounded-lg shadow-lg"
           >
@@ -112,7 +112,7 @@ export default {
     Card,
   },
   props: {
-    deck: {
+    deckProp: {
       type: Object,
       required: true,
     },
@@ -162,12 +162,17 @@ export default {
     },
   },
   mounted() {
-    // Inicializa el mazo con los datos recibidos
-    if (Array.isArray(this.cards) && Array.isArray(this.deckData.cards)) {
-      this.deck = this.deckData.cards.map(item => ({
-        card: this.cards.find(c => c.id === item.card_id),
-        count: item.count,
-      }));
+    // Agrega automáticamente las cartas de deckProp al listado de seleccionadas
+    if (Array.isArray(this.cards) && Array.isArray(this.deckProp.cards)) {
+      this.deck = this.deckProp.cards.map(item => {
+        if (item.card && typeof item.card === 'object') {
+          return { card: this.cards.find(c => c.id === item.card.id) || item.card, count: item.count };
+        }
+        if (item.card_id) {
+          return { card: this.cards.find(c => c.id === item.card_id), count: item.count };
+        }
+        return null;
+      }).filter(item => item && item.card);
       this.deck_to_request = this.deck.map(item => ({ card: item.card.id, count: item.count }));
     } else {
       this.deck = [];
@@ -208,9 +213,9 @@ export default {
       this.deck_to_request = this.deck.map(item => ({ card: item.card.id, count: item.count }));
     },
     updateDeck() {
-      if (this.totalCardsInDeck >= 30) {
-        axios.put(route('deck.update', { deck: this.deckData.id }), {
-          name: this.deckData.name,
+    //   if (this.totalCardsInDeck >= 30) {
+        axios.put(route('deck.update', { deck: this.deckProp.id }), {
+          name: this.deckProp.name,
           cards: this.deck_to_request,
         })
         .then(response => {
@@ -219,9 +224,9 @@ export default {
         .catch(error => {
           console.error('Error al actualizar el mazo:', error);
         });
-      } else {
-        alert('Hay que tener 30 cartas como mínimo');
-      }
+    //   } else {
+    //     alert('Hay que tener 30 cartas como mínimo');
+    //   }
     },
   },
 };

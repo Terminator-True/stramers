@@ -63,8 +63,9 @@ class DeckController extends Controller
             ]);
 
             $request->merge(['user_id' => Auth::id()]);
-            $result = Deck::create($request);
-            if ($result) {
+            $deck = Deck::create($request);
+
+            if ($deck) {
                 return response()->json([
                     'status' => 200,
                     'message' => 'Mazo creado exitosamente'
@@ -95,12 +96,27 @@ class DeckController extends Controller
         try {
             $cards = Auth::user()->cards;
             $deck = Deck::where('id', $id)->with('cards')->first();
-
+            if (!$deck) {
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'Mazo no encontrado'
+                ], 404);
+            }
+            // Estructura para la vista
+            $deckProp = [
+                'id' => $deck->id,
+                'name' => $deck->name,
+                'cards' => $deck->cards->map(function($card) {
+                    return [
+                        'card' => $card,
+                        'count' => $card->pivot->quantity ?? 1
+                    ];
+                })
+            ];
             return Inertia::render('Deck/UpdateDeck', [
-                'deck' => $deck->first(), // Incluye las cartas y el id
+                'deckProp' => $deckProp,
                 'cards' => $cards
             ]);
-
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 500,

@@ -209,7 +209,7 @@ export default {
       url: route('deck.store'),
       data: {
         name: "mazo",
-        cards: this.deck_to_request,
+        cards: this.deck,
       },
     }
       if (this.deck.reduce((total, deckItem) => total + deckItem.count, 0) >= 30){

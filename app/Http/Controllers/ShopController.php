@@ -26,9 +26,11 @@ class ShopController extends Controller
         return response()->json(['status' => 200, 'cards' => $cards]);
     }
 
-    public function index() {
-        // Aquí podrías cargar los datos necesarios para la tienda, como las cartas disponibles, precios, etc.
-        return Inertia::render('Shop/Shop');
+    public function index( Request $request ) {
+        $userCredits = $request->user()->money;
+        return Inertia::render('Shop/Shop', [
+            'userCredits' => $userCredits
+        ]);
     }
 
 
@@ -44,7 +46,15 @@ class ShopController extends Controller
 
     public function get_ruleta_card(Request $request)
     {
+
         $user = $request->user();
+
+        // Verificar y descontar 50 coins
+        if ($user->coins < 50) {
+            return ['status' => 403, 'value' => 'No tienes suficientes coins para girar la ruleta'];
+        }
+        $user->coins -= 50;
+        $user->save();
 
         // Probabilidades: 4% épica, 1% legendaria, el resto común/normal
         $request->validate([

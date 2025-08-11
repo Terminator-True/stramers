@@ -42,7 +42,7 @@
               <svg width="32" height="32" viewBox="0 0 32 32"><polygon points="16,0 24,16 8,16" fill="#fff"/></svg>
             </div>
           </div>
-          <button @click="spinWheel" :disabled="spinning" class="px-6 py-2 font-bold text-white transition-all duration-200 transform rounded-lg shadow-md bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-400 hover:to-teal-400 hover:scale-105 disabled:opacity-50">
+          <button @click="spinWheel" :disabled="spinning || userCoins < 50" class="px-6 py-2 font-bold text-white transition-all duration-200 transform rounded-lg shadow-md bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-400 hover:to-teal-400 hover:scale-105 disabled:opacity-50">
             Girar Ruleta (50 Coins)
           </button>
           <div v-if="resultRarity" class="mt-4 text-xl font-bold " :class="rarityColorClass(resultRarity)">
@@ -64,7 +64,7 @@
           <div v-for="card in cards" :key="card.id" class="flex flex-col items-center gap-2 p-4 rounded-lg shadow-md bg-gray-700/50 backdrop-blur-lg">
             <Card :card="card" />
             <p class="text-gray-400">{{ card.price ? card.price + ' Coins' : '' }}</p>
-            <button @click="buyCard(card.id)" class="px-4 py-2 font-bold text-white transition-all duration-200 transform rounded-lg shadow-sm bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-400 hover:to-indigo-500 hover:scale-105">
+            <button @click="buyCard(card.id)" :disabled="userCoins < (card.price) " class="px-4 py-2 font-bold text-white transition-all duration-200 transform rounded-lg shadow-sm bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-400 hover:to-indigo-500 hover:scale-105">
               Comprar
             </button>
           </div>
@@ -91,6 +91,14 @@
 
 <script setup>
 import { ref, onMounted, nextTick } from 'vue';
+import { usePage } from '@inertiajs/vue3';
+import Card from '@/Components/Cards/Card.vue';
+import axios from 'axios';
+import MainLayout from '@/Layouts/MainLayout.vue';
+
+const page = usePage();
+const userCoins = ref(page.props.userCredits ?? 0);
+
 // Ruleta config
 const wheelCanvas = ref(null);
 const spinning = ref(false);
@@ -195,6 +203,8 @@ async function getRuletaCard(rarity) {
     const response = await axios.get(route('shop.ruletaCard'), { params: { rarity } });
     if (response.data && response.data.status === 200 && response.data.value) {
       ruletaCard.value = response.data.value;
+    } else if (response.data && response.data.status === 403) {
+      ruletaCard.value = { name: 'No tienes suficientes coins para girar la ruleta', img: null };
     } else {
       ruletaCard.value = { name: 'No hay carta disponible', img: null };
     }
@@ -203,9 +213,6 @@ async function getRuletaCard(rarity) {
     console.error('Error al obtener carta de la ruleta:', e);
   }
 }
-import Card from '@/Components/Cards/Card.vue';
-import axios from 'axios';
-import MainLayout from '@/Layouts/MainLayout.vue';
 
 defineOptions({ layout: MainLayout });
 

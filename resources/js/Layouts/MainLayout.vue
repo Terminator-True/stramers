@@ -28,7 +28,24 @@
                 }"
             ></div>
         </div>
-        <div class="relative z-10">
+        <!-- Header absoluto -->
+        <header class="fixed top-0 left-0 z-20 flex items-center justify-end w-full gap-6 px-8 py-4 bg-black/40 backdrop-blur-md">
+            <div class="flex items-center gap-4">
+                <span v-if="$page.props.userCredits !== undefined" class="flex items-center gap-1 text-lg font-bold text-yellow-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="10" fill="#FFD700"/></svg>
+                    {{ $page.props.userCredits }}
+                </span>
+                <span v-if="$page.props.auth && $page.props.auth.user && $page.props.auth.user.level" class="flex items-center gap-1 text-lg font-bold text-blue-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 2l2.09 6.26L20 9.27l-5 3.64L16.18 20 12 16.77 7.82 20 9 12.91l-5-3.64 5.91-.91z" fill="#60A5FA"/></svg>
+                    Nivel {{ $page.props.auth.user.level }}
+                </span>
+                <span v-if="$page.props.auth && $page.props.auth.user && $page.props.auth.user.name" class="flex items-center gap-1 text-lg font-semibold text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="8" r="4" fill="#fff"/><path d="M4 20c0-4 8-4 8-4s8 0 8 4v2H4v-2z" fill="#fff"/></svg>
+                    {{ $page.props.auth.user.name }}
+                </span>
+            </div>
+        </header>
+        <div class="relative z-10 pt-20">
             <slot />
         </div>
     </div>

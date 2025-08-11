@@ -99,22 +99,23 @@ class Deck extends Model
             $deck->name = $request->input('name');
             $deck->selected = false;
             // $deck->usos = 0;
-            $deck->user_id =$request->input('user_id');
+            $deck->user_id = $request->user()->id;
             $deck->save();
 
-            //TODO Añadir attach la cantidad de cartas que se mencionen en el request
-            //ejemplo: [{"card_id"=>"1","quantity"=>"2"},{"card_id"=>"2","quantity"=>"1"}] 
-            //Solo se tiene que hacer un for añadiendo al attach el mismo id, las veces que se mencionen en quantity
-
+            // Attach cartas con cantidad (quantity) en la tabla pivote
             $cartas = $request->input('cards');
-            
+            $attachData = [];
             foreach ($cartas as $carta) {
-                for ($i=0; $i < $carta['quantity']; $i++) { 
-                    $deck->cards()->attach($carta['card_id']);
+                // Soporta tanto formato [ 'card' => [ 'id' => ... ], 'count' => ... ] como [ 'card_id' => ..., 'quantity' => ... ]
+                $cardId = isset($carta['card']['id']) ? $carta['card']['id'] : (isset($carta['card_id']) ? $carta['card_id'] : null);
+                $quantity = isset($carta['count']) ? $carta['count'] : (isset($carta['quantity']) ? $carta['quantity'] : 1);
+                if ($cardId) {
+                    $attachData[$cardId] = ['quantity' => $quantity];
                 }
             }
-
-            $deck->cards()->attach($request->input('cards'));
+            if (!empty($attachData)) {
+                $deck->cards()->attach($attachData);
+            }
 
             return true;
 
@@ -127,15 +128,21 @@ class Deck extends Model
     {
         try {
             if ($request->has('name') && $request->has('user_id') && $request->has('cards')) {
-
                 $deck = $this::query()->where('user_id', $request->input('user_id'))->first();
-                $deck->cards()->sync($request->input('cards'));
+                $cartas = $request->input('cards');
+                $syncData = [];
+                foreach ($cartas as $carta) {
+                    $cardId = isset($carta['card']['id']) ? $carta['card']['id'] : (isset($carta['card_id']) ? $carta['card_id'] : null);
+                    $quantity = isset($carta['count']) ? $carta['count'] : (isset($carta['quantity']) ? $carta['quantity'] : 1);
+                    if ($cardId) {
+                        $syncData[$cardId] = ['quantity' => $quantity];
+                    }
+                }
+                $deck->cards()->sync($syncData);
                 $deck->update(['name'=>$request->input('name')]);
-
                 return true;
             }
             return false;
-
         } catch (Exception $e) {
            return null;
         }
